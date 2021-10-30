@@ -6,6 +6,11 @@
 make.js.iml
 config.yml
 
+.project
+.classpath
+.settings
+.DS_Store
+
 /db/data
 /server/target
 /server/server
