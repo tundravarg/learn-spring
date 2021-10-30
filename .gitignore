@@ -7,3 +7,4 @@ make.js.iml
 config.yml
 
 /db/data
+/server/target
