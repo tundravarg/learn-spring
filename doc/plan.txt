@@ -4,7 +4,7 @@
 	-	Dump of DB
 
 %	Spring Boot
-	%	Empty application
+	+	Empty application
 	-	Application configuration
 	-	Bean factories
 	-	Data
