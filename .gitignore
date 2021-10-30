@@ -6,4 +6,4 @@
 make.js.iml
 config.yml
 
-/postgres/data
+/db/data
