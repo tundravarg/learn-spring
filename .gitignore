@@ -8,3 +8,4 @@ config.yml
 
 /db/data
 /server/target
+/server/server
