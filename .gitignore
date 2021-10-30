@@ -1,0 +1,7 @@
+*.swp
+*~
+\#*\#
+
+.idea
+make.js.iml
+config.yml
