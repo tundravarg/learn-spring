@@ -5,7 +5,7 @@
 
 %	Spring Boot
 	+	Empty application
-	-	Application configuration
+	+	Application properties
 	-	Bean factories
 	-	Data
 		-	Entity Manager
