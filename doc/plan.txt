@@ -1,0 +1,23 @@
+- 	Database
+	- 	Docker with postgres
+	-	Liquibase
+	-	Dump of DB
+
+-	Spring Boot
+	-	Empty application
+	-	Application configuration
+	-	Bean factories
+	-	Data
+		-	Entity Manager
+		-	Repositories
+			-	Native SQL
+			-	HQL
+			-	Query methods
+		-	OneToMany, ManyToOne, etc.
+		-	Tables inherritance
+	-	WEB
+		-	REST
+		-	View
+		-	Middleware
+	-	Security
+	-	Aspects
