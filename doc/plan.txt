@@ -1,5 +1,5 @@
-- 	Database
-	- 	Docker with postgres
+%	Database
+	+	Docker with postgres
 	-	Liquibase
 	-	Dump of DB
 
