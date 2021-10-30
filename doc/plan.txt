@@ -3,8 +3,8 @@
 	-	Liquibase
 	-	Dump of DB
 
--	Spring Boot
-	-	Empty application
+%	Spring Boot
+	+	Empty application
 	-	Application configuration
 	-	Bean factories
 	-	Data
