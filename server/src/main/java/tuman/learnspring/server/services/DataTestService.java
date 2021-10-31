@@ -2,6 +2,7 @@ package tuman.learnspring.server.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.transaction.Transactional;
@@ -11,12 +12,15 @@ import org.springframework.stereotype.Component;
 
 import tuman.learnspring.server.entities.LocationEntity;
 import tuman.learnspring.server.repositories.LocationRepository;
+import tuman.learnspring.server.repositories.LocationRepositoryImpl;
 
 @Component
 public class DataTestService {
 
 	@Autowired
 	private LocationRepository locationRepository;
+	@Autowired
+	private LocationRepositoryImpl locationRepositoryImpl;
 
 
 	public void testDataAccess() {
@@ -25,8 +29,15 @@ public class DataTestService {
 
 	@Transactional
 	private void testGetLocationsViaCrud() {
-		Iterable<LocationEntity> allLocations = locationRepository.findAll();
-		StreamSupport.stream(allLocations.spliterator(), false)
+		Stream<LocationEntity> locationsStream;
+
+		// Iterable<LocationEntity> allLocations = locationRepository.findAll();
+		// locationsStream = StreamSupport.stream(allLocations.spliterator(), false);
+
+		List<LocationEntity> allLocations = locationRepositoryImpl.findAll();
+		locationsStream = allLocations.stream();
+
+		locationsStream
 				.forEach(location -> {
 					System.out.println("---- Location: " + locationToString(location));
 					System.out.println("-------- Parent: " + locationToString(location.getParent()));
