@@ -1,3 +1,8 @@
+spring.datasource:
+  url: jdbc:postgresql://localhost:5432/test
+  username: postgres
+  password: pp
+
 test:
   prop3: p-a-3
   prop4: p-a-4
