@@ -42,8 +42,10 @@ public class DataTestService {
 					System.out.println("---- Location: " + locationToString(location));
 					System.out.println("-------- Parent: " + locationToString(location.getParent()));
 					System.out.println("-------- Children: ");
-					// TODO Lazy operations
-					location.getChildren().stream()
+					List<LocationEntity> children;
+					// children = location.getChildren();
+					children = locationRepository.getChildLocations(location.getId());
+					children.stream()
 							.forEach(child -> {
 								System.out.println("------------ Child: " + locationToString(child));
 							});

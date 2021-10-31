@@ -32,9 +32,9 @@ public class LocationEntity {
 	@ManyToOne(targetEntity = LocationEntity.class, fetch = FetchType.LAZY)
 	private LocationEntity parent;
 
-	// TODO LAZY
-	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
-	private List<LocationEntity> children;
+	// // TODO LAZY
+	// @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	// private List<LocationEntity> children;
 
 
 	public Integer getId() {
@@ -69,12 +69,12 @@ public class LocationEntity {
 		this.parent = parent;
 	}
 
-	public List<LocationEntity> getChildren() {
-		return children;
-	}
+	// public List<LocationEntity> getChildren() {
+	// 	return children;
+	// }
 
-	public void setChildren(List<LocationEntity> chidlren) {
-		this.children = chidlren;
-	}
+	// public void setChildren(List<LocationEntity> chidlren) {
+	// 	this.children = chidlren;
+	// }
 
 }
