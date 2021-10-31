@@ -44,7 +44,8 @@ public class DataTestService {
 					System.out.println("-------- Children: ");
 					List<LocationEntity> children;
 					// children = location.getChildren();
-					children = locationRepository.getChildLocations(location.getId());
+					// children = locationRepository.findChildLocations(location.getId());
+					children = locationRepository.findLocationsByParentId(location.getId());
 					children.stream()
 							.forEach(child -> {
 								System.out.println("------------ Child: " + locationToString(child));

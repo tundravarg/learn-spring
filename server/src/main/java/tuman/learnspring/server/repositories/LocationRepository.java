@@ -14,6 +14,8 @@ public interface LocationRepository extends CrudRepository<LocationEntity, Integ
 		SELECT c FROM LocationEntity c
 		WHERE c.parent.id = :parentId
 	""")
-	public List<LocationEntity> getChildLocations(@Param("parentId") Integer parentId);
+	public List<LocationEntity> findChildLocations(@Param("parentId") Integer parentId);
+
+	public List<LocationEntity> findLocationsByParentId(@Param("parentId") Integer parentId);
 
 }
