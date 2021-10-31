@@ -1,4 +1,4 @@
-package tuman.learnspring.server;
+package tuman.learnspring.server.configuration;
 
 import java.io.IOException;
 import java.util.Properties;
