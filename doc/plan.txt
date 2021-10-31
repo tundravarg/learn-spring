@@ -1,5 +1,6 @@
 %	Database
 	+	Docker with postgres
+	%	Test DB structure
 	-	Liquibase
 	-	Dump of DB
 
@@ -8,6 +9,7 @@
 	+	Application properties
 	-	Bean factories
 	-	Data
+		-	Test DB structure
 		-	Entity Manager
 		-	Repositories
 			-	Native SQL
@@ -15,6 +17,7 @@
 			-	Query methods
 		-	OneToMany, ManyToOne, etc.
 		-	Tables inherritance
+		-	Recursive queries
 	-	WEB
 		-	REST
 		-	View
