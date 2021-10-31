@@ -1,6 +1,6 @@
 %	Database
 	+	Docker with postgres
-	%	Test DB structure
+	+	Test DB structure
 	-	Liquibase
 	-	Dump of DB
 
@@ -8,8 +8,7 @@
 	+	Empty application
 	+	Application properties
 	-	Bean factories
-	-	Data
-		-	Test DB structure
+	%	Data
 		-	Entity Manager
 		-	Repositories
 			-	Native SQL
