@@ -19,7 +19,7 @@ public class AppService {
 	public void onAppReady() {
 		System.out.println("----------- APP is ready");
 		// propertiesTestService.testProperties();
-		dataTestService.testDataAccess();
+		// dataTestService.testDataAccess();
 	}
 
 }
