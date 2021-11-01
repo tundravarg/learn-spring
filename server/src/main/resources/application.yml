@@ -3,6 +3,9 @@ spring.datasource:
   username: postgres
   password: pp
 
+server:
+    servlet.contextPath: /assetmanager
+
 test:
   prop3: p-a-3
   prop4: p-a-4
