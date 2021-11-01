@@ -60,3 +60,15 @@ LEFT JOIN locations AS l2 ON l2.id = l1.parent_id
 LEFT JOIN locations AS l3 ON l3.id = l2.parent_id
 ORDER BY a.id
 ;
+
+
+---- Count Assets in locations
+
+SELECT
+    l.name, count(a.name)
+FROM locations AS l
+LEFT JOIN asset_placement AS ap ON ap.location_id = l.id
+LEFT JOIN assets AS a ON a.id = ap.asset_id
+GROUP BY l.name
+ORDER BY l.name
+;
