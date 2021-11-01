@@ -10,11 +10,11 @@
 	-	Bean factories
 	%	Data
 		-	Entity Manager
-		-	Repositories
-			-	Native SQL
-			-	HQL
-			-	Query methods
-		-	OneToMany, ManyToOne, etc.
+		+	Repositories
+			+	Native SQL
+			+	HQL
+			+	Query methods
+		+	OneToMany, ManyToOne, etc.
 		-	Tables inherritance
 		-	Recursive queries
 	-	WEB
