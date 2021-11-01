@@ -1,4 +1,4 @@
-package tuman.learnspring.server;
+package tuman.learnspring.server.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
