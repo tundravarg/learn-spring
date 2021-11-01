@@ -4,6 +4,7 @@ spring.datasource:
   password: pp
 
 server:
+    port: 8081
     servlet.contextPath: /assetmanager
 
 test:
