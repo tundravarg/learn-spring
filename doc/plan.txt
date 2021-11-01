@@ -17,6 +17,7 @@
 		+	OneToMany, ManyToOne, etc.
 		-	Tables inherritance
 		-	Recursive queries
+		-	Generated AbcEntity_ classes
 	-	WEB
 		-	REST
 		-	View
