@@ -1,7 +1,13 @@
+-- Add NSM columns
+
 -- ALTER TABLE locations
 -- ADD COLUMN nsm_l int;
 -- ALTER TABLE locations
 -- ADD COLUMN nsm_r int;
+
+
+
+-- Calculate NSM indices in tree/subtree
 
 CREATE OR REPLACE FUNCTION build_location_node_nsm (id int, nsm_l int)
 RETURNS int
@@ -33,6 +39,8 @@ BEGIN
 
 END; $$;
 
+-- Calculate NSM indices starting from roots
+
 CREATE OR REPLACE FUNCTION build_locations_nsm ()
 RETURNS int
 LANGUAGE plpgsql
@@ -57,10 +65,13 @@ BEGIN
 
 END; $$;
 
+-- Run NSM calculation
 
 SELECT build_locations_nsm();
 
 
+
+-- Trigger function, which runs on data changes
 
 CREATE OR REPLACE FUNCTION locations_nsm_trigger_func ()
 RETURNS trigger
@@ -79,19 +90,27 @@ BEGIN
     RETURN NULL;
 END; $$;
 
+-- Remove triggers (OR REPLACE doesn't works in Postgres 10)
+
 DROP TRIGGER IF EXISTS locations_nsm_trigger_id ON locations;
 DROP TRIGGER IF EXISTS locations_nsm_trigger_u ON locations;
+
+-- On INSERT or DELETE we trigger recalculation anyway
 
 CREATE TRIGGER locations_nsm_trigger_id
 AFTER INSERT OR DELETE
 ON locations
 EXECUTE PROCEDURE locations_nsm_trigger_func();
 
+-- On UPDATE we must check every changed row
+
 CREATE TRIGGER locations_nsm_trigger_u
 AFTER UPDATE
 ON locations
 FOR EACH ROW EXECUTE PROCEDURE locations_nsm_trigger_func();
 
+
+-- Test
 
 -- SELECT * FROM locations
 -- ORDER BY nsm_l, nsm_r;
