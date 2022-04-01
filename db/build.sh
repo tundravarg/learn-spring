@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker imagedocker build -t postgres-t .
+docker image build -t postgres-t .
