@@ -61,5 +61,37 @@ END; $$;
 SELECT build_locations_nsm();
 
 
-SELECT * FROM locations
-ORDER BY nsm_l, nsm_r;
+
+CREATE OR REPLACE FUNCTION locations_nsm_trigger_func ()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (TG_OP = 'UPDATE')
+    THEN
+        IF (OLD.id != NEW.id OR OLD.parent_id != NEW.parent_id)
+        THEN
+            PERFORM build_locations_nsm();
+        END IF;
+    ELSE
+        PERFORM build_locations_nsm();
+    END IF;
+    RETURN NULL;
+END; $$;
+
+DROP TRIGGER IF EXISTS locations_nsm_trigger_id ON locations;
+DROP TRIGGER IF EXISTS locations_nsm_trigger_u ON locations;
+
+CREATE TRIGGER locations_nsm_trigger_id
+AFTER INSERT OR DELETE
+ON locations
+EXECUTE PROCEDURE locations_nsm_trigger_func();
+
+CREATE TRIGGER locations_nsm_trigger_u
+AFTER UPDATE
+ON locations
+FOR EACH ROW EXECUTE PROCEDURE locations_nsm_trigger_func();
+
+
+-- SELECT * FROM locations
+-- ORDER BY nsm_l, nsm_r;
