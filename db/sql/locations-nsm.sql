@@ -1,13 +1,15 @@
--- Add NSM columns
-
--- ALTER TABLE locations
--- ADD COLUMN nsm_l int;
--- ALTER TABLE locations
--- ADD COLUMN nsm_r int;
+BEGIN;
 
 
+---- Add NSM columns
 
--- Calculate NSM indices in tree/subtree
+ALTER TABLE locations
+ADD COLUMN nsm_l int;
+ALTER TABLE locations
+ADD COLUMN nsm_r int;
+
+
+---- Calculate NSM indices in tree/subtree
 
 CREATE OR REPLACE FUNCTION build_location_node_nsm (id int, nsm_l int)
 RETURNS int
@@ -39,7 +41,7 @@ BEGIN
 
 END; $$;
 
--- Calculate NSM indices starting from roots
+---- Calculate NSM indices starting from roots
 
 CREATE OR REPLACE FUNCTION build_locations_nsm ()
 RETURNS int
@@ -65,11 +67,6 @@ BEGIN
 
 END; $$;
 
--- Run NSM calculation
-
-SELECT build_locations_nsm();
-
-
 
 -- Trigger function, which runs on data changes
 
@@ -90,19 +87,19 @@ BEGIN
     RETURN NULL;
 END; $$;
 
--- Remove triggers (OR REPLACE doesn't works in Postgres 10)
+---- Remove triggers (OR REPLACE doesn't works in Postgres 10)
 
 DROP TRIGGER IF EXISTS locations_nsm_trigger_id ON locations;
 DROP TRIGGER IF EXISTS locations_nsm_trigger_u ON locations;
 
--- On INSERT or DELETE we trigger recalculation anyway
+---- On INSERT or DELETE we trigger recalculation anyway
 
 CREATE TRIGGER locations_nsm_trigger_id
 AFTER INSERT OR DELETE
 ON locations
 EXECUTE PROCEDURE locations_nsm_trigger_func();
 
--- On UPDATE we must check every changed row
+---- On UPDATE we must check every changed row
 
 CREATE TRIGGER locations_nsm_trigger_u
 AFTER UPDATE
@@ -110,7 +107,18 @@ ON locations
 FOR EACH ROW EXECUTE PROCEDURE locations_nsm_trigger_func();
 
 
--- Test
+---- Build NSM now
 
--- SELECT * FROM locations
--- ORDER BY nsm_l, nsm_r;
+SELECT build_locations_nsm();
+
+
+COMMIT;
+
+
+---- Detect problems
+
+-- SELECT *
+-- FROM locations AS l
+-- JOIN locations AS p ON p.id = l.parent_id
+-- WHERE l.nsm_l <= p.nsm_l OR l.nsm_r >= p.nsm_r;
+
