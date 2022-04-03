@@ -1,4 +1,4 @@
-package tuman.learnspring.server;
+package tuman.learnspring.server.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
