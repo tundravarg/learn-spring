@@ -1,5 +1,7 @@
 #!/bin/sh
 
-JAR_FILE=target/server-1.0-SNAPSHOT.jar
+WD=target
+JAR=server-1.0-SNAPSHOT.jar
+MAIN_CLASS=tuman.learnspring.server.AppKt
 
-java -jar $JAR_FILE
+cd "$WD" && java -cp "$JAR:lib/*" $MAIN_CLASS $*
