@@ -8,10 +8,7 @@ import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -40,9 +37,15 @@ public class HttpClientTestService {
 //                    .uri(new URI("http://localhost:8080/api/ping"))
                     .uri(buildUrl("https", "localhost", "8080", "/api/ping", Map.of("i", 7)))
                     .GET()
-                    .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("test:testpwd".getBytes()))
+//                    .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("test:testpwd".getBytes()))
                     .build();
             HttpClient client = HttpClient.newBuilder()
+                    .authenticator(new Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("test", "testpwd".toCharArray());
+                        }
+                    })
 //                    .sslContext(getDummySslContext())
                     .sslContext(getSslContext(cacertsUrl, cacertsPassword))
                     .build();
