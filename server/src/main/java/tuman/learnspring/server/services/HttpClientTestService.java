@@ -12,8 +12,8 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Map;
@@ -33,12 +33,14 @@ public class HttpClientTestService {
                     .header("Authorization", "basic uname:upwd")
                     .build();
             HttpClient client = HttpClient.newBuilder()
-                    .sslContext(getDummySslContext())
+//                    .sslContext(getDummySslContext())
+                    .sslContext(getSslContext())
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("------------------- Call PING: " + response.statusCode() + ": " + response.body());
         } catch (URISyntaxException | IOException | InterruptedException ex) {
             System.err.println("Can't execute request: " + ex.getClass() + ": " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -65,6 +67,32 @@ public class HttpClientTestService {
             sslContext.init(null, trustManagers, null);
             return sslContext;
         } catch (NoSuchAlgorithmException | KeyManagementException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+
+    private static SSLContext getSslContext() {
+        final char[] PASSWORD = "store_pass".toCharArray();
+
+        try {
+
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            keyStore.load(HttpClientTestService.class.getResourceAsStream("/cacerts.jks"), PASSWORD);
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+            keyManagerFactory.init(keyStore, PASSWORD);
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+            trustManagerFactory.init(keyStore);
+
+            SSLContext sslContext = SSLContext.getInstance("ssl");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+
+            return sslContext;
+
+        } catch (NoSuchAlgorithmException | KeyStoreException | CertificateException | IOException |
+                 UnrecoverableKeyException | KeyManagementException ex) {
             throw new IllegalStateException(ex);
         }
     }
