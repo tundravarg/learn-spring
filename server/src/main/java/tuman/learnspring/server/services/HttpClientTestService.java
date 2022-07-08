@@ -54,6 +54,10 @@ public class HttpClientTestService {
     }
 
 
+    /**
+     * Return dummy SSLContext, which allows all certificates
+     * @return Dummy SSLContext
+     */
     private static SSLContext getDummySslContext() {
         TrustManager[] trustManagers = {
             new X509TrustManager() {
@@ -81,6 +85,12 @@ public class HttpClientTestService {
     }
 
 
+    /**
+     * Return SSLContext whic uses certificates stored in cacerts.jks file
+     * @param jksUrl Store URL (for example: "classpath:cacerts.jks")
+     * @param jksPassword Store password
+     * @return Configured SSLContext
+     */
     private static SSLContext getSslContext(String jksUrl, String jksPassword) {
         try (InputStream jskStream = new URL(jksUrl).openStream()) {
 
