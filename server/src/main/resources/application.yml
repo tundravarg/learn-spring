@@ -6,3 +6,11 @@ spring.datasource:
 test:
   prop3: p-a-3
   prop4: p-a-4
+
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:cert.p12
+    key-store-password: kspasswd
+    key-alias: tspringtest
+    enabled: true
