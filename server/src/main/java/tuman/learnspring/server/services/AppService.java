@@ -13,13 +13,16 @@ public class AppService {
 	private PropertiesTestService propertiesTestService;
 	@Autowired
 	private DataTestService dataTestService;
+	@Autowired
+	private HttpClientTestService httpClientTestService;
 
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onAppReady() {
 		System.out.println("----------- APP is ready");
-		// propertiesTestService.testProperties();
-		dataTestService.testDataAccess();
+//		propertiesTestService.testProperties();
+//		dataTestService.testDataAccess();
+		httpClientTestService.callPing();
 	}
 
 }
