@@ -3,6 +3,7 @@ package tuman.learnspring.server.services;
 
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -11,8 +12,10 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -22,17 +25,47 @@ public class HttpClientTestService {
     public void callPing() {
         System.out.println("------------------- Call PING...");
         try {
+            System.getProperties().setProperty("jdk.internal.httpclient.disableHostnameVerification", Boolean.TRUE.toString());
             HttpRequest request = HttpRequest.newBuilder()
 //                    .uri(new URI("http://localhost:8080/api/ping"))
-                    .uri(buildUrl("http", "localhost", "8080", "/api/ping", Map.of("i", 7)))
+                    .uri(buildUrl("https", "localhost", "8080", "/api/ping", Map.of("i", 7)))
                     .GET()
                     .header("Authorization", "basic uname:upwd")
                     .build();
-            HttpClient client = HttpClient.newBuilder().build();
+            HttpClient client = HttpClient.newBuilder()
+                    .sslContext(getDummySslContext())
+                    .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("------------------- Call PING: " + response.statusCode() + ": " + response.body());
         } catch (URISyntaxException | IOException | InterruptedException ex) {
             System.err.println("Can't execute request: " + ex.getClass() + ": " + ex.getMessage());
+        }
+    }
+
+
+    private static SSLContext getDummySslContext() {
+        TrustManager[] trustManagers = {
+            new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] x509Certificates, String s) {
+                    System.out.println("---- checkClientTrusted: " + s);
+                }
+                @Override
+                public void checkServerTrusted(X509Certificate[] x509Certificates, String s) {
+                    System.out.println("---- checkServerTrusted: " + s);
+                }
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            }
+        };
+        try {
+            SSLContext sslContext = SSLContext.getInstance("ssl");
+            sslContext.init(null, trustManagers, null);
+            return sslContext;
+        } catch (NoSuchAlgorithmException | KeyManagementException ex) {
+            throw new IllegalStateException(ex);
         }
     }
 
