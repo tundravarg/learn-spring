@@ -13,6 +13,8 @@ public class AppService {
 	private PropertiesTestService propertiesTestService;
 	@Autowired
 	private DataTestService dataTestService;
+	@Autowired
+	private HttpClientTestService httpClientTestService;
 
 
 	@EventListener(ApplicationReadyEvent.class)
@@ -20,6 +22,7 @@ public class AppService {
 		System.out.println("----------- APP is ready");
 //		propertiesTestService.testProperties();
 //		dataTestService.testDataAccess();
+		httpClientTestService.callPing();
 	}
 
 }
