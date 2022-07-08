@@ -14,3 +14,9 @@ server:
     key-store-password: kspasswd
     key-alias: tspringtest
     enabled: true
+
+app:
+  https:
+    cacerts:
+      url: classpath:cacerts.jks
+      password: store_pass

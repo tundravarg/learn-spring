@@ -1,13 +1,16 @@
 package tuman.learnspring.server.services;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -22,6 +25,12 @@ import java.util.function.Predicate;
 @Service
 public class HttpClientTestService {
 
+    @Value("${app.https.cacerts.url}")
+    private String cacertsUrl;
+    @Value("${app.https.cacerts.password}")
+    private String cacertsPassword;
+
+
     public void callPing() {
         System.out.println("------------------- Call PING...");
         try {
@@ -34,7 +43,7 @@ public class HttpClientTestService {
                     .build();
             HttpClient client = HttpClient.newBuilder()
 //                    .sslContext(getDummySslContext())
-                    .sslContext(getSslContext())
+                    .sslContext(getSslContext(cacertsUrl, cacertsPassword))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("------------------- Call PING: " + response.statusCode() + ": " + response.body());
@@ -72,16 +81,14 @@ public class HttpClientTestService {
     }
 
 
-    private static SSLContext getSslContext() {
-        final char[] PASSWORD = "store_pass".toCharArray();
-
-        try {
+    private static SSLContext getSslContext(String jksUrl, String jksPassword) {
+        try (InputStream jskStream = new URL(jksUrl).openStream()) {
 
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(HttpClientTestService.class.getResourceAsStream("/cacerts.jks"), PASSWORD);
+            keyStore.load(jskStream, jksPassword.toCharArray());
 
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-            keyManagerFactory.init(keyStore, PASSWORD);
+            keyManagerFactory.init(keyStore, jksPassword.toCharArray());
 
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
             trustManagerFactory.init(keyStore);
