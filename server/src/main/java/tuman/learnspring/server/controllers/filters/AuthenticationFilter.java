@@ -63,12 +63,12 @@ public class AuthenticationFilter implements Filter {
         String authType = matcher.group(1).toLowerCase();
         String authStr = matcher.group(2);
         return switch (authType) {
-            case "basic" -> chechBasicAuthorization(authStr);
+            case "basic" -> checkBasicAuthorization(authStr);
             default -> false;
         };
     }
 
-    private boolean chechBasicAuthorization(String authStr) {
+    private boolean checkBasicAuthorization(String authStr) {
         authStr = new String(Base64.getDecoder().decode(authStr));
         Matcher matcher = PARSE_BASIC_AUTH.matcher(authStr);
         if (!matcher.find()) {
