@@ -18,8 +18,8 @@ public class AppService {
 	@EventListener(ApplicationReadyEvent.class)
 	public void onAppReady() {
 		System.out.println("----------- APP is ready");
-		// propertiesTestService.testProperties();
-		dataTestService.testDataAccess();
+//		propertiesTestService.testProperties();
+//		dataTestService.testDataAccess();
 	}
 
 }
