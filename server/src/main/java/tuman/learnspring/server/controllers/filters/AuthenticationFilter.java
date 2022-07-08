@@ -50,6 +50,7 @@ public class AuthenticationFilter implements Filter {
     private void responseNotAuthorized(ServletResponse response) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         httpResponse.setStatus(401);
+        httpResponse.setHeader("WWW-Authenticate", "Basic realm=<realm>");
         httpResponse.getOutputStream().println("Unauthorized");
         httpResponse.getOutputStream().flush();
     }
@@ -80,7 +81,7 @@ public class AuthenticationFilter implements Filter {
 
     private boolean checkUsernameAndPassword(String username, String password) {
         String user = USERS.get(username);
-        return (user == null && password.isEmpty()) || (user != null && user.equals(password));
+        return user != null && user.equals(password);
     }
 
 }
