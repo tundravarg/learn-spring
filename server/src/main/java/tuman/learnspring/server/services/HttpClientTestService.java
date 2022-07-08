@@ -19,6 +19,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -39,7 +40,7 @@ public class HttpClientTestService {
 //                    .uri(new URI("http://localhost:8080/api/ping"))
                     .uri(buildUrl("https", "localhost", "8080", "/api/ping", Map.of("i", 7)))
                     .GET()
-                    .header("Authorization", "basic uname:upwd")
+                    .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("test:testpwd".getBytes()))
                     .build();
             HttpClient client = HttpClient.newBuilder()
 //                    .sslContext(getDummySslContext())
