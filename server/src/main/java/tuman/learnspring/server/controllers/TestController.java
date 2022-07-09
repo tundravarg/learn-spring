@@ -2,6 +2,7 @@ package tuman.learnspring.server.controllers;
 
 
 import org.springframework.web.bind.annotation.*;
+import tuman.learnspring.server.dtos.UserCtx;
 
 import java.util.Map;
 
@@ -15,7 +16,9 @@ public class TestController {
         @RequestParam(value = "i", required = false)
         Integer i,
         @RequestHeader
-        Map<String, String> headers
+        Map<String, String> headers,
+        @SessionAttribute
+        UserCtx userCtx
     ) {
         System.out.println("PING: i=" + i);
         headers.forEach((key, value) -> {
