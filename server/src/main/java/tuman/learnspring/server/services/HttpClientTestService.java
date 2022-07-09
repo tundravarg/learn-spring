@@ -43,7 +43,7 @@ public class HttpClientTestService {
                     .authenticator(new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("user", "userpwd".toCharArray());
+                            return new PasswordAuthentication("admin", "adminpwd".toCharArray());
                         }
                     })
 //                    .sslContext(getDummySslContext())

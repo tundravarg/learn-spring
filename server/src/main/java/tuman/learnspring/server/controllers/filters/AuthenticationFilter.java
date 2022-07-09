@@ -34,7 +34,7 @@ public class AuthenticationFilter implements Filter {
     static {
         final Consumer<User> putUser = (User user) -> USERS.put(user.username, user);
         putUser.accept(new User("user", "userpwd", "ping"));
-        putUser.accept(new User("admin", "adminpwd", "ping", "admin"));
+        putUser.accept(new User("admin", "adminpwd", "admin"));
     }
 
 
