@@ -2,6 +2,8 @@ package tuman.learnspring.server.controllers;
 
 
 import org.springframework.web.bind.annotation.*;
+import tuman.learnspring.server.annotations.CheckPrivileges;
+import tuman.learnspring.server.dtos.UserCtx;
 
 import java.util.Map;
 
@@ -11,11 +13,14 @@ import java.util.Map;
 public class TestController {
 
     @GetMapping("/ping")
+    @CheckPrivileges({"ping"})
     public String ping(
         @RequestParam(value = "i", required = false)
         Integer i,
         @RequestHeader
-        Map<String, String> headers
+        Map<String, String> headers,
+        @SessionAttribute
+        UserCtx userCtx
     ) {
         System.out.println("PING: i=" + i);
         headers.forEach((key, value) -> {
